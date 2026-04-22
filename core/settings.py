@@ -144,8 +144,18 @@ STATICFILES_DIRS = [
 ]
 LOGIN_URL = '/admin/login/'
 
-import os
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# Ye line PythonAnywhere ke liye zaroori hai
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Ye folder aapke project ke andar ki images ke liye hai
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+# Media files (Product images)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
