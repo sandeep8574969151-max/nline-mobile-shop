@@ -1,0 +1,368 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>91mobiles Clone - Search, Compare, Buy</title>
+    <style>
+        /* Top Black Bar */
+        .top-navbar {
+            background-color: #1a1a1a;
+            padding: 10px 0;
+        }
+
+        .nav-link {
+            color: #fff !important;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* White Sub-Menu */
+        .sub-menu {
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .sub-menu .nav-link {
+            color: #333 !important;
+            font-size: 13px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+        }
+
+        .sub-menu .nav-link:hover {
+            color: #ff6f00 !important;
+        }
+
+        /* Branding & Search */
+        .search-box {
+            border-radius: 4px 0 0 4px;
+            border: 1px solid #ddd;
+        }
+
+        .search-btn {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+
+        /* Brand Card Styling */
+        .brand-card {
+            border: 1px solid #f0f0f0;
+            padding: 20px;
+            border-radius: 4px;
+            text-align: center;
+            background: #fff;
+            transition: 0.2s;
+        }
+
+        .brand-card:hover {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border-color: #ff6f00;
+        }
+
+        .brand-card img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* Product Card Styling */
+        .product-card {
+            border: none;
+            border-radius: 8px;
+            transition: 0.3s;
+            background: #fff;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .product-img {
+            height: 180px;
+            object-fit: contain;
+            padding: 15px;
+        }
+
+        .section-title {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .view-all {
+            color: #ff6f00;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .price-text {
+            color: #d9232d;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* Category Box Styling */
+        .category-box {
+            transition: 0.3s;
+            background-color: #fff;
+            border: 1px solid #eee !important;
+        }
+
+        .category-box:hover {
+            background-color: #f8f9fa;
+            border-color: #ff6f00 !important;
+            cursor: pointer;
+        }
+
+        .vs-circle {
+            background: #000;
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+            border: 2px solid #fff;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <header class="top-navbar">
+        <div class="container d-flex align-items-center justify-content-between">
+            <a href="{% url 'home' %}">
+                <img src="{% static 'images/logo.png' %}" alt="91mobiles" style="height: 35px;">
+            </a>
+            <div class="flex-grow-1 mx-5">
+                <form action="{% url 'phone_list' %}" method="GET" class="d-flex">
+                    <input type="text" name="q" class="form-control search-box"
+                        placeholder="Search for products or brands">
+                    <button class="search-btn px-3" type="submit"><i class="fa fa-search text-muted"></i></button>
+                </form>
+            </div>
+            <div class="text-white small">
+                <a href="{% url 'signup' %}" class="nav-link d-inline">Login/Signup</a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="sub-menu shadow-sm">
+        <div class="container">
+            <ul class="nav">
+                <li class="nav-item"><a class="nav-link" href="{% url 'phone_list' %}">Mobiles & Tablets <i
+                            class="fa fa-chevron-down small"></i></a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'phone_list' %}">Top 10 <i
+                            class="fa fa-chevron-down small"></i></a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'compare_phones' %}">Compare</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'phone_list' %}">Upcoming Mobiles</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'phone_list' %}">News & Reviews</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row g-4">
+            <div class="col-md-8">
+                <div class="bg-white p-4 rounded shadow-sm border">
+                    <h5 class="fw-bold mb-4">Let's Find a Mobile For You!</h5>
+                    <form action="{% url 'phone_list' %}" method="GET" class="row align-items-end">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Price Range</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="number" name="min" class="form-control" placeholder="0">
+                                <span class="text-muted">to</span>
+                                <input type="number" name="max" class="form-control" placeholder="65,000+">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="submit" class="btn w-100 fw-bold text-white py-2"
+                                style="background: #ff6f00; border:none;">FIND MOBILES</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="bg-white p-3 rounded border shadow-sm h-100">
+                    <p class="small fw-bold mb-3">What are you looking to buy?</p>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <a href="{% url 'phone_list' %}" class="text-decoration-none text-dark">
+                                <div class="p-2 text-center rounded category-box">
+                                    <img src="https://img.icons8.com/color/48/iphone.png" class="mb-1 d-block mx-auto"
+                                        style="width: 30px;">
+                                    <span class="small">Mobiles</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-2 text-center rounded category-box">
+                                <img src="https://img.icons8.com/color/48/laptop.png" class="mb-1 d-block mx-auto"
+                                    style="width: 30px;">
+                                <span class="small">Laptops</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-2 text-center rounded category-box">
+                                <img src="https://img.icons8.com/color/48/tablet.png" class="mb-1 d-block mx-auto"
+                                    style="width: 30px;">
+                                <span class="small">Tablets</span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-2 text-center rounded category-box">
+                                <img src="https://img.icons8.com/color/48/smart-tv.png" class="mb-1 d-block mx-auto"
+                                    style="width: 30px;">
+                                <span class="small">TVs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="section-title mb-0">Featured Mobile Brands</h5>
+            <a href="{% url 'phone_list' %}" class="view-all">View All <i class="fa fa-chevron-right small"></i></a>
+        </div>
+        <div class="row g-3">
+            {% for brand in brands %}
+            <div class="col-md-2 col-4">
+                <a href="{% url 'phone_list' %}?brand={{ brand.name }}" class="text-decoration-none">
+                    <div class="brand-card">
+                        {% if brand.logo %}
+                        <img src="{{ brand.logo.url }}" alt="{{ brand.name }}">
+                        {% else %}
+                        <span class="fw-bold">{{ brand.name }}</span>
+                        {% endif %}
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="container mt-5 mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="section-title mb-0">Latest Mobiles</h5>
+            <a href="{% url 'phone_list' %}" class="view-all">See More <i class="fa fa-chevron-right small"></i></a>
+        </div>
+        <div class="row g-4">
+            {% for phone in featured_phones %}
+            <div class="col-md-3 col-sm-6">
+                <div class="card product-card shadow-sm h-100 p-2">
+                    {% if phone.image %}
+                    <img src="{{ phone.image.url }}" class="product-img mx-auto" alt="{{ phone.name }}">
+                    {% endif %}
+                    <div class="card-body text-center">
+                        <h6 class="fw-bold text-dark mb-2">{{ phone.name }}</h6>
+                        <p class="price-text mb-3">₹ {{ phone.price }}</p>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'phone_detail' phone.slug %}" class="btn btn-outline-primary btn-sm">Full
+                                Specs</a>
+                            <a href="{{ phone.buy_url }}" target="_blank" class="btn btn-warning btn-sm fw-bold">
+                                GO TO STORE <i class="fa fa-external-link small"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <p class="text-muted">Abhi koi mobiles add nahi kiye gaye hain.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="section-title mb-0">Featured Mobile Comparisons</h5>
+            <a href="{% url 'compare_phones' %}" class="view-all">Compare More <i
+                    class="fa fa-chevron-right small"></i></a>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div
+                    class="bg-white p-3 rounded border shadow-sm d-flex align-items-center justify-content-between position-relative">
+                    <div class="text-center" style="width: 40%;">
+                        <img src="https://m.media-amazon.com/images/I/71d7rfSl0wL._SL1500_.jpg"
+                            style="height: 60px; object-fit: contain;">
+                        <p class="small fw-bold mb-0">Samsung A55</p>
+                    </div>
+                    <div class="vs-circle">VS</div>
+                    <div class="text-center" style="width: 40%;">
+                        <img src="https://m.media-amazon.com/images/I/813oAgS+5eL._SL1500_.jpg"
+                            style="height: 60px; object-fit: contain;">
+                        <p class="small fw-bold mb-0">Vivo V30 Pro</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer
+        style="background-color: #000; color: #fff; padding: 40px 0 20px 0; margin-top: 50px; font-family: Arial, sans-serif;">
+        <div class="container">
+            <div class="row text-center mb-4" style="border-bottom: 1px solid #333; padding-bottom: 20px;">
+                <div class="col-12">
+                    <div class="footer-top-links">
+                        <a href="#" class="text-white text-decoration-none px-2 small">CONTACT US</a>
+                        <span class="text-secondary">|</span>
+                        <a href="{% url 'compare_phones' %}"
+                            class="text-white text-decoration-none px-2 small">COMPARE</a>
+                        <span class="text-secondary">|</span>
+                        <a href="{% url 'phone_list' %}" class="text-white text-decoration-none px-2 small">PHONE
+                            FINDER</a>
+                        <span class="text-secondary">|</span>
+                        <a href="#" class="text-white text-decoration-none px-2 small">TOP 10</a>
+                        <span class="text-secondary">|</span>
+                        <a href="#" class="text-white text-decoration-none px-2 small">PRIVACY POLICY</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-12 mb-3">
+                    <h6
+                        style="color: #ccc; font-size: 14px; font-weight: bold; border-bottom: 1px solid #222; padding-bottom: 10px; margin-bottom: 15px;">
+                        NEW MOBILE PHONES</h6>
+                </div>
+                <div class="col-md-3 col-6 small text-muted">Xiaomi Redmi A7 4G, Tecno Spark 50 4G</div>
+                <div class="col-md-3 col-6 small text-muted">POCO C81 PRO 4G, vivo Y600 Pro</div>
+                <div class="col-md-3 col-6 small text-muted">Honor X5d 4G, Motorola Edge 70 Pro</div>
+                <div class="col-md-3 col-6 small text-muted">OPPO A6s Pro 5G, Samsung M55</div>
+            </div>
+
+            <div class="row align-items-center" style="border-top: 1px solid #333; padding-top: 20px;">
+                <div class="col-md-6 text-start">
+                    <span class="small text-muted me-3">Connect with us:</span>
+                    <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white me-2"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+                </div>
+                <div class="col-md-6 text-md-end text-start mt-3 mt-md-0">
+                    <a href="#" class="small text-muted text-decoration-none">Report a Bug</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

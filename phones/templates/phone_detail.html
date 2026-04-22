@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Mobile Finder - 91mobiles Clone</title>
+</head>
+
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="/">91Mobiles Clone</a>
+        </div>
+    </nav>
+
+    <div class="container bg-white p-4 shadow-sm rounded">
+        <div class="row">
+            <div class="col-md-5 text-center">
+                {% if phone.image %}
+                <img src="{{ phone.image.url }}" class="img-fluid" style="max-height: 450px;">
+                {% else %}
+                <p>No Image Available</p>
+                {% endif %}
+            </div>
+
+            <div class="mt-4">
+                <a href="{{ phone.buy_url }}" target="_blank" class="btn btn-warning btn-lg px-5 fw-bold">
+                    BUY FROM {{ phone.get_store_name_display|upper }} <i class="fa fa-shopping-cart ms-2"></i>
+                </a>
+            </div>
+
+
+            <table class="table table-bordered mt-4">
+                <thead class="table-dark">
+                    <tr>
+                        <th colspan="2">Key Specifications</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>RAM</strong></td>
+                        <td>{{ phone.ram }} GB</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Storage</strong></td>
+                        <td>{{ phone.storage }} GB</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Battery</strong></td>
+                        <td>{{ phone.battery }} mAh</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Camera</strong></td>
+                        <td>{{ phone.camera }} MP</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Processor</strong></td>
+                        <td>{{ phone.processor }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="/" class="btn btn-secondary mt-3">Back to Home</a>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+/* Mobile Card Styling */
+.card {
+    transition: transform 0.3s;
+    border: none;
+    border-radius: 10px;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+    padding: 20px;
+    height: 200px;
+    object-fit: contain;
+}
+
+.price-tag {
+    color: #cb202d;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
